@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 数据流处理节点
@@ -23,7 +24,7 @@ public class DataFlowNode {
     private String type;
 
     //节点配置
-    private DataFlowNodeConfig config;
+    private Map<String,Object> config;
 
     //输入节点
     private List<DataFlowLink> inputs;
