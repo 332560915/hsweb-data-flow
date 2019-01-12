@@ -6,6 +6,8 @@ public interface DataFlowTask {
 
     String getId();
 
+    String getProcessId();
+
     String getModelName();
 
     String getModelId();

@@ -3,7 +3,9 @@ package org.hswebframework.data.flow.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 数据流处理模型
@@ -18,7 +20,16 @@ public class DataFlowModel {
 
     private String name;
 
-    private String des;
+    private String description;
 
-    private List<DataFlowNode> nodes;
+    private long version;
+
+    private List<DataFlowNode> nodes = new ArrayList<>();
+
+    public Optional<DataFlowNode> getStartNode() {
+
+        return nodes.stream()
+                .filter(node -> DataFlowNode.TYPE_START.equals(node.getType()))
+                .findFirst();
+    }
 }

@@ -15,6 +15,7 @@ public class LinkCondition {
     //spel or javascript
     private String type;
 
+    // data.format=='json'
     private String expression;
 
 }

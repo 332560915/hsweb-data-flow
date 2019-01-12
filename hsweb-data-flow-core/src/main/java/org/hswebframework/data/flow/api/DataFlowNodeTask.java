@@ -1,6 +1,8 @@
 package org.hswebframework.data.flow.api;
 
-public interface DataFlowNodeRunner {
+import java.util.function.Consumer;
+
+public interface DataFlowNodeTask {
 
     String getId();
 
@@ -10,7 +12,7 @@ public interface DataFlowNodeRunner {
 
     String getNodeName();
 
-    void start(DataFlowNodeContext context);
+    void start(DataFlowNodeContext context, Consumer<RunnerFuture<Object>> resultHandle);
 
     void stop();
 
