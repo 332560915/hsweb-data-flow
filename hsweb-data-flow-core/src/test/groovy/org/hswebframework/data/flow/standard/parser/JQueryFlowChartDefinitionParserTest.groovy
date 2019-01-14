@@ -56,7 +56,7 @@ class JQueryFlowChartDefinitionParserTest extends Specification {
                           },
                           "operatorTypes": {}
                         }
-        """;
+        """
 
         given:
         def define = parser.parse(json);
