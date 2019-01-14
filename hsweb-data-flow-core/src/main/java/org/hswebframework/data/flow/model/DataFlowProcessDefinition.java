@@ -22,11 +22,11 @@ public class DataFlowProcessDefinition {
 
     private long version;
 
-    private List<DataFlowTaskDefinition> nodes = new ArrayList<>();
+    private List<DataFlowTaskDefinition> tasks = new ArrayList<>();
 
-    public Optional<DataFlowTaskDefinition> getStartNode() {
-        return nodes.stream()
-                .filter(node -> DataFlowTaskDefinition.TYPE_START.equals(node.getType()))
+    public Optional<DataFlowTaskDefinition> getStartTask() {
+        return tasks.stream()
+                .filter(node -> DataFlowTaskDefinition.TYPE_START.equals(node.getType()) || node.getInputs().isEmpty())
                 .findFirst();
     }
 }

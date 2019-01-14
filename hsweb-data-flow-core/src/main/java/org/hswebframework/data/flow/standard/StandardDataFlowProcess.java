@@ -77,7 +77,7 @@ public class StandardDataFlowProcess implements DataFlowProcess {
                     expressionContext.put("node", nodeContext);
                     return dataFlowLink.matchCondition(expressionContext);
                 })
-                .map(DataFlowLink::getTargetNode)
+                .map(DataFlowLink::getTargetNodes)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
@@ -113,7 +113,7 @@ public class StandardDataFlowProcess implements DataFlowProcess {
     @Override
     public void start(DataFlowContext context) {
         doStartNode(definition
-                        .getStartNode()
+                        .getStartTask()
                         .orElseThrow(UnsupportedOperationException::new)
                 , context
                 , null
