@@ -11,6 +11,9 @@
 
     <artifactId>hsweb-data-flow-core</artifactId>
 
+    <build>
+        <testSourceDirectory>src/test/groovy</testSourceDirectory>
+    </build>
 
     <dependencies>
         <dependency>
@@ -19,5 +22,25 @@
             <version>1.1.11</version>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.0-groovy-2.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
     </dependencies>
 </project>

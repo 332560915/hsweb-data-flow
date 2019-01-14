@@ -1,9 +1,10 @@
 package org.hswebframework.data.flow.api.factory;
 
-import org.hswebframework.data.flow.model.DataFlowNode;
+import org.hswebframework.data.flow.api.DataFlowNodeTaskRunnable;
+import org.hswebframework.data.flow.model.DataFlowTaskDefinition;
 
 public interface DataFlowNodeRunnableFactory {
 
-    Runnable create(DataFlowNode node);
+    DataFlowNodeTaskRunnable create(DataFlowTaskDefinition node);
 
 }

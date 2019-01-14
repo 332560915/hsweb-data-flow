@@ -1,15 +1,19 @@
-package org.hswebframework.data.flow.api.repository.entity;
+package org.hswebframework.data.flow.repository.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hswebframework.data.flow.model.DataFlowNode;
+import org.hswebframework.data.flow.model.DataFlowTaskDefinition;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class DataFlowNodeTaskEntity {
+public class DataFlowNodeTaskEntity implements Serializable {
+
+    private static final long serialVersionUID = -6849794470754667710L;
 
     /**
-     * @see DataFlowProcessEntity#getId()
+     * @see DataFlowProcessDefinitionEntity#getId()
      */
     private String processId;
 
@@ -19,12 +23,12 @@ public class DataFlowNodeTaskEntity {
     private String taskId;
 
     /**
-     * @see DataFlowNode#getId()
+     * @see DataFlowTaskDefinition#getId()
      */
     private String nodeId;
 
     /**
-     * @see DataFlowNode#getName()
+     * @see DataFlowTaskDefinition#getName()
      */
     private String nodeName;
 

@@ -19,6 +19,6 @@ public class Slf4jProgress implements Progress {
 
     @Override
     public void set(float percent) {
-        logger.info("{},{}%", prefix, percent);
+        logger.info("{}=>{}%", prefix, percent);
     }
 }

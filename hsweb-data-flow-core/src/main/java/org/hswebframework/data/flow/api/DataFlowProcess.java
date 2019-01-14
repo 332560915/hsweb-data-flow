@@ -1,20 +1,17 @@
 package org.hswebframework.data.flow.api;
 
 
+import java.util.Map;
 
-public interface DataFlowTask {
+public interface DataFlowProcess {
 
     String getId();
-
-    String getProcessId();
-
-    String getModelName();
-
-    String getModelId();
 
     long getCreateTime();
 
     long getStartTime();
+
+    DataFlowContext newContext(Map<String, Object> parameter);
 
     void start(DataFlowContext context);
 

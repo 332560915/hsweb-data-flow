@@ -15,11 +15,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Getter
 @Setter
-public class DataFlowNode {
+public class DataFlowTaskDefinition {
 
     public static final String TYPE_START = "start";
     public static final String TYPE_END = "end";
-
 
     private String id;
 
@@ -41,4 +40,5 @@ public class DataFlowNode {
 
     //输出节点
     private List<DataFlowLink> outputs;
+
 }

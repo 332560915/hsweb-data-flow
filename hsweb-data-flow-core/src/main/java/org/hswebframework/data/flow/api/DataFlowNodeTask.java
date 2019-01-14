@@ -12,7 +12,7 @@ public interface DataFlowNodeTask {
 
     String getNodeName();
 
-    void start(DataFlowNodeContext context, Consumer<RunnerFuture<Object>> resultHandle);
+    void start(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultHandle);
 
     void stop();
 

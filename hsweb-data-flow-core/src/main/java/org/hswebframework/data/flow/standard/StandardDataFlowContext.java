@@ -4,13 +4,23 @@ import org.hswebframework.data.flow.api.DataFlowContext;
 import org.hswebframework.data.flow.api.Logger;
 import org.hswebframework.data.flow.api.Progress;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class StandardDataFlowContext implements DataFlowContext {
 
-    private Map<String, Object> parameters;
+    private Map<String, Object> parameters = new HashMap<>();
 
+    private Logger logger;
+
+    private Progress progress;
+
+    public StandardDataFlowContext(String name, Map<String, Object> parameters) {
+        this.parameters.putAll(parameters);
+        this.logger = new Slf4jLogger("hsweb.data.flow.standard." + name);
+        this.progress = new Slf4jProgress("hsweb.data.flow.standard.progress", name);
+    }
 
     @Override
     public Map<String, Object> getParameters() {
@@ -19,21 +29,22 @@ public class StandardDataFlowContext implements DataFlowContext {
 
     @Override
     public <T> Optional<T> getNodeResult(String nodeId, Class<T> type) {
-        return null;
+        // TODO: 19-1-14
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void putParameter(String key, Object value) {
-
+        parameters.put(key, value);
     }
 
     @Override
     public Logger logger() {
-        return null;
+        return logger;
     }
 
     @Override
     public Progress progress() {
-        return null;
+        return progress;
     }
 }

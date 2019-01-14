@@ -15,21 +15,18 @@ import java.util.Optional;
  */
 @Getter
 @Setter
-public class DataFlowModel {
+public class DataFlowProcessDefinition {
     private String id;
 
     private String name;
 
-    private String description;
-
     private long version;
 
-    private List<DataFlowNode> nodes = new ArrayList<>();
+    private List<DataFlowTaskDefinition> nodes = new ArrayList<>();
 
-    public Optional<DataFlowNode> getStartNode() {
-
+    public Optional<DataFlowTaskDefinition> getStartNode() {
         return nodes.stream()
-                .filter(node -> DataFlowNode.TYPE_START.equals(node.getType()))
+                .filter(node -> DataFlowTaskDefinition.TYPE_START.equals(node.getType()))
                 .findFirst();
     }
 }
