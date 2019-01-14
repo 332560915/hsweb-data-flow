@@ -68,52 +68,6 @@ public class JQueryFlowChartDefinitionParser implements DataFlowProcessDefinitio
         private String toSubConnector;
     }
 
-    public static void main(String[] args) {
-        String json = "{\n" +
-                "  \"operators\": {\n" +
-                "    \"operator1\": {\n" +
-                "      \"top\": 20,\n" +
-                "      \"left\": 20,\n" +
-                "      \"properties\": {\n" +
-                "        \"title\": \"Operator 1\",\n" +
-                "        \"inputs\": {},\n" +
-                "        \"outputs\": {\n" +
-                "          \"output_1\": {\n" +
-                "            \"label\": \"Output 1\"\n" +
-                "          }\n" +
-                "        }\n" +
-                "      }\n" +
-                "    },\n" +
-                "    \"operator2\": {\n" +
-                "      \"top\": 80,\n" +
-                "      \"left\": 300,\n" +
-                "      \"properties\": {\n" +
-                "        \"title\": \"Operator 2\",\n" +
-                "        \"inputs\": {\n" +
-                "          \"input_1\": {\n" +
-                "            \"label\": \"Input 1\"\n" +
-                "          },\n" +
-                "          \"input_2\": {\n" +
-                "            \"label\": \"Input 2\"\n" +
-                "          }\n" +
-                "        },\n" +
-                "        \"outputs\": {}\n" +
-                "      }\n" +
-                "    }\n" +
-                "  },\n" +
-                "  \"links\": {\n" +
-                "    \"link_1\": {\n" +
-                "      \"fromOperator\": \"operator1\",\n" +
-                "      \"fromConnector\": \"output_1\",\n" +
-                "      \"toOperator\": \"operator2\",\n" +
-                "      \"toConnector\": \"input_2\"\n" +
-                "    }\n" +
-                "  },\n" +
-                "  \"operatorTypes\": {}\n" +
-                "}";
-        System.out.println(json);
-    }
-
     @Override
     public DataFlowProcessDefinition parse(String meta) {
         JQueryFlowChartData flowChartData = JSON.parseObject(meta, JQueryFlowChartData.class);
