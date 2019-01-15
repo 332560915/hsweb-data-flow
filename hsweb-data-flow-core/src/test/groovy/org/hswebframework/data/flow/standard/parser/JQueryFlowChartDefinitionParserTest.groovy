@@ -67,7 +67,7 @@ class JQueryFlowChartDefinitionParserTest extends Specification {
         define.getStartTask().isPresent()
         define.getStartTask().get().id=='operator1'
         define.getStartTask().get().getOutputs().get(0).getTargetNodes().get(0).getId()=='operator2'
-        define.getStartTask().get().getOutputs().get(0).getTargetNodes().get(0).getType()=='java-method'
+        define.getStartTask().get().getOutputs().get(0).getTargetNodes().get(0).getTaskType()=='java-method'
         define.getStartTask().get().getOutputs().get(0).getTargetNodes().get(0).getConfig().get("className")!=null
         define.getStartTask().get().getOutputs().get(0).getTargetNodes().get(0).getConfig().get("methodName")!=null
 
