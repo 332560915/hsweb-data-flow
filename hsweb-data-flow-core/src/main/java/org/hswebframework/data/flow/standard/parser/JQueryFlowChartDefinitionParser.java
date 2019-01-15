@@ -42,10 +42,11 @@ public class JQueryFlowChartDefinitionParser implements DataFlowProcessDefinitio
     public static class OperatorProperties {
         private String title;
         private String taskType;
+        private String type;
 
         private Map<String, Object> config;
 
-        private Map<String, Map<String, Object>> inputs = new HashMap<>();
+        private Map<String, Map<String, Object>> inputs  = new HashMap<>();
         private Map<String, Map<String, Object>> outputs = new HashMap<>();
 
         public boolean inputIsEmpty() {
@@ -79,7 +80,8 @@ public class JQueryFlowChartDefinitionParser implements DataFlowProcessDefinitio
             DataFlowTaskDefinition definition = new DataFlowTaskDefinition();
             definition.setId(id);
             definition.setName(operator.properties.title);
-            definition.setType(operator.properties.taskType);
+            definition.setTaskType(operator.properties.taskType);
+            definition.setType(operator.properties.type);
             definition.setConfig(operator.properties.config);
 
             return definition;

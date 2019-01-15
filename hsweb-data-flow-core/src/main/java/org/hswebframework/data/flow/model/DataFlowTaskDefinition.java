@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class DataFlowTaskDefinition {
 
     public static final String TYPE_START = "start";
-    public static final String TYPE_END = "end";
+    public static final String TYPE_END   = "end";
 
     private String id;
 
@@ -30,6 +30,8 @@ public class DataFlowTaskDefinition {
     private String description;
 
     private String type;
+
+    private String taskType;
 
     private long executeTimeout = 0;
 

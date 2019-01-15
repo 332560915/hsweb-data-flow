@@ -13,4 +13,23 @@ public interface DataFlowNodeTaskRunnable {
     void run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception;
 
     void stop();
+
+    static DataFlowNodeTaskRunnable doNoting() {
+        return new DataFlowNodeTaskRunnable() {
+            @Override
+            public String getRunnerId() {
+                return "none";
+            }
+
+            @Override
+            public void run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception {
+                resultConsumer.accept(TaskFuture.success(null));
+            }
+
+            @Override
+            public void stop() {
+
+            }
+        };
+    }
 }

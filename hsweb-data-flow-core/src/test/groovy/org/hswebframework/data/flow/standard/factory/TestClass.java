@@ -10,6 +10,7 @@ import org.hswebframework.data.flow.api.Progress;
 public class TestClass {
 
     public Object method() {
+        System.out.println(2);
         return "simpleMethod";
     }
 

@@ -30,6 +30,10 @@ public class StandardDataFlowNodeContext implements DataFlowNodeContext {
     @Setter
     private String preNodeId;
 
+    @Getter
+    @Setter
+    private Object preNodeResult;
+
     private Logger logger;
 
     private Progress progress;
@@ -41,6 +45,9 @@ public class StandardDataFlowNodeContext implements DataFlowNodeContext {
 
     @Override
     public <T> Optional<T> getPreNodeResult(Class<T> type) {
+        if (type.isInstance(preNodeResult)) {
+            return Optional.ofNullable((T) preNodeResult);
+        }
         return Optional.empty();
     }
 

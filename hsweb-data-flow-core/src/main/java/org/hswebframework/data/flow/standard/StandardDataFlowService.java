@@ -31,7 +31,7 @@ public class StandardDataFlowService implements DataFlowService {
     @Override
     public String startDataFlow(String processDefinitionId, Map<String, Object> parameter) {
         PersistentDataFlowProcessDefinition persistentModel = processRepository.findById(processDefinitionId);
-        Objects.requireNonNull(persistentModel, "模型不存在");
+        Objects.requireNonNull(persistentModel, "流程不存在");
         DataFlowProcessDefinition definition = definitionParser.parse(persistentModel);
         return startDataFlow(definition, parameter);
     }

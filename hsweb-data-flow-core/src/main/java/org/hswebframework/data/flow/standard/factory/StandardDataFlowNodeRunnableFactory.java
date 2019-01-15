@@ -23,11 +23,30 @@ public class StandardDataFlowNodeRunnableFactory implements DataFlowNodeRunnable
     @Setter
     private List<DataFlowNodeRunnableFactoryStrategy> strategies = new ArrayList<>();
 
+    public StandardDataFlowNodeRunnableFactory() {
+        strategies.add(new DataFlowNodeRunnableFactoryStrategy() {
+            @Override
+            public Object newConfig() {
+                return new Object();
+            }
+
+            @Override
+            public boolean support(String type) {
+                return type == null || type.isEmpty();
+            }
+
+            @Override
+            public DataFlowNodeTaskRunnable create(Object config) {
+                return DataFlowNodeTaskRunnable.doNoting();
+            }
+        });
+    }
+
     @Override
     public DataFlowNodeTaskRunnable create(DataFlowTaskDefinition node) {
         return strategies
                 .stream()
-                .filter(strategy -> strategy.support(node.getType()))
+                .filter(strategy -> strategy.support(node.getTaskType()))
                 .findFirst()
                 .map(strategy -> strategy.create(copyConfig(strategy.newConfig(), node.getConfig())))
                 .orElseThrow(() -> new UnsupportedOperationException("[" + node.getName() + "]:不支持的节点类型:" + node.getType()));
@@ -35,7 +54,9 @@ public class StandardDataFlowNodeRunnableFactory implements DataFlowNodeRunnable
 
     @SneakyThrows
     protected Object copyConfig(Object target, Map<String, Object> config) {
-        BeanUtils.copyProperties(target, config);
+        if (null != config) {
+            BeanUtils.copyProperties(target, config);
+        }
         return target;
     }
 

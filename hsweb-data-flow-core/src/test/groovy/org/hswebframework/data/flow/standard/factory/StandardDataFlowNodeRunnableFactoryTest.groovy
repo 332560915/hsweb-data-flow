@@ -23,7 +23,7 @@ class StandardDataFlowNodeRunnableFactoryTest extends Specification {
     def "测试调用java方法"() {
         def definition = new DataFlowTaskDefinition(
                 id: "test",
-                type: "java-method",
+                taskType: "java-method",
                 name: "test",
                 config: [
                         "className" : "org.hswebframework.data.flow.standard.factory.TestClass",

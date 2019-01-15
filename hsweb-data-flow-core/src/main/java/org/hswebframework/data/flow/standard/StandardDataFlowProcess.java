@@ -36,7 +36,7 @@ public class StandardDataFlowProcess implements DataFlowProcess {
     @Setter
     private DataFlowProcessDefinition definition;
 
-    private volatile boolean running;
+    private volatile boolean running = false;
 
     public DataFlowContext newContext(Map<String, Object> parameter) {
         return new StandardDataFlowContext(definition.getName(), parameter);
@@ -48,6 +48,7 @@ public class StandardDataFlowProcess implements DataFlowProcess {
                                               Object preResult) {
         StandardDataFlowNodeContext nodeContext = new StandardDataFlowNodeContext(node.getName());
         nodeContext.setFlowContext(context);
+        nodeContext.setPreNodeResult(preResult);
         if (preNode != null) {
             nodeContext.setPreNodeId(preNode.getId());
             nodeContext.setPreNodeType(preNode.getType());
@@ -92,6 +93,11 @@ public class StandardDataFlowProcess implements DataFlowProcess {
         DataFlowNodeContext nodeContext = newNodeContext(context, node, preNode, preResult);
         DataFlowNodeTask task = createDataFlowNodeTask(node);
         task.start(nodeContext, future -> {
+            if (!future.success()) {
+                context.logger().error("任务失败", future.cause());
+                end(context);
+                return;
+            }
             Object result = future.get();
             if (DataFlowTaskDefinition.TYPE_END.equals(node.getType())) {
                 end(context);

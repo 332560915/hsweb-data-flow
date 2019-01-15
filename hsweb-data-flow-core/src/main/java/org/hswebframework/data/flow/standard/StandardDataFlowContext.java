@@ -18,8 +18,8 @@ public class StandardDataFlowContext implements DataFlowContext {
 
     public StandardDataFlowContext(String name, Map<String, Object> parameters) {
         this.parameters.putAll(parameters);
-        this.logger = new Slf4jLogger("hsweb.data.flow.standard." + name);
-        this.progress = new Slf4jProgress("hsweb.data.flow.standard.progress", name);
+        this.logger = new Slf4jLogger("data.flow." + name);
+        this.progress = new Slf4jProgress("data.flow.progress", name);
     }
 
     @Override
