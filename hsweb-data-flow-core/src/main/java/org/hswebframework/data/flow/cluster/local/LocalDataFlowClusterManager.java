@@ -8,6 +8,7 @@ import org.hswebframework.data.flow.utils.IdUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 
@@ -124,6 +125,11 @@ public class LocalDataFlowClusterManager implements DataFlowClusterManager {
     @Override
     public ClusterMap getMap(String map) {
 
+        return null;
+    }
+
+    @Override
+    public List<NodeInfo> getAllNode() {
         return null;
     }
 }

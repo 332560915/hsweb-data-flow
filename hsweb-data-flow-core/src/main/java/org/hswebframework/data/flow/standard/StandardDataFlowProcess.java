@@ -99,14 +99,12 @@ public class StandardDataFlowProcess implements DataFlowProcess {
                 return;
             }
             Object result = future.get();
-            if (DataFlowTaskDefinition.TYPE_END.equals(node.getType())) {
-                end(context);
-                return;
-            }
             List<DataFlowTaskDefinition> nextNodes = getNextNode(node, nodeContext, context);
             //没有下一步节点,结束流程
             if (nextNodes == null || nextNodes.isEmpty()) {
-                end(context);
+                if (!context.isStream()) {
+                    end(context);
+                }
                 return;
             }
             //执行下一步

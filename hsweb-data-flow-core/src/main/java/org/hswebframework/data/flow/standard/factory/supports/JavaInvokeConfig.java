@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.annotation.Documented;
 import java.util.List;
 
 /**

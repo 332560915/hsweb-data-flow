@@ -1,6 +1,8 @@
 package org.hswebframework.data.flow.cluster;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author zhouhao
@@ -16,4 +18,12 @@ public interface DataFlowClusterManager {
 
     ClusterMap getMap(String map);
 
+    List<NodeInfo> getAllNode();
+
+    default List<NodeInfo> getWokerNode() {
+        return getAllNode()
+                .stream()
+                .filter(NodeInfo::isWorker)
+                .collect(Collectors.toList());
+    }
 }

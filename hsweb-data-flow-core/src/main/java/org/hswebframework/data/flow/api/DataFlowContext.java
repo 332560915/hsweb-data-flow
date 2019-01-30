@@ -21,4 +21,6 @@ public interface DataFlowContext {
 
     Progress progress();
 
+    boolean isStream();
+
 }

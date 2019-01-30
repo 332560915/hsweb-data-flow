@@ -47,4 +47,9 @@ public class StandardDataFlowContext implements DataFlowContext {
     public Progress progress() {
         return progress;
     }
+
+    @Override
+    public boolean isStream() {
+        return false;
+    }
 }

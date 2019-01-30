@@ -98,7 +98,7 @@ public class JQueryFlowChartDefinitionParser implements DataFlowProcessDefinitio
 
             from.getOuputLink(linkId, () -> {
                 DataFlowLink flowLink = new DataFlowLink();
-                Map<String, Object> lingProperties = operator.getProperties().outputs.get(link.fromOperator);
+                Map<String, Object> linkProperties = operator.getProperties().outputs.get(link.fromOperator);
                 // TODO: 2019/1/14 更多属性
 
                 return flowLink;
@@ -107,7 +107,7 @@ public class JQueryFlowChartDefinitionParser implements DataFlowProcessDefinitio
 
             to.getInputLink(linkId, () -> {
                 DataFlowLink flowLink = new DataFlowLink();
-                Map<String, Object> lingProperties = operator.getProperties().outputs.get(link.fromOperator);
+                Map<String, Object> linkProperties = operator.getProperties().outputs.get(link.fromOperator);
                 // TODO: 2019/1/14 更多属性
                 return flowLink;
             }).addSourceNode(from)
