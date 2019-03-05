@@ -16,7 +16,7 @@ public interface DataFlowClusterManager {
 
     Lock getLock(String lockName, long timeout, TimeUnit timeUnit);
 
-    ClusterMap getMap(String map);
+    <K,V> ClusterMap<K,V> getMap(String map);
 
     List<NodeInfo> getAllNode();
 

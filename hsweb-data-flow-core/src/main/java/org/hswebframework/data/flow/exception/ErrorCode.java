@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 
+    CannotFoundStartNode("启动节点不存在"),
     WorkerNotAlive("没有可用的工作节点");
 
     private String text;

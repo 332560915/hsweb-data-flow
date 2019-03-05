@@ -123,7 +123,7 @@ public class LocalDataFlowClusterManager implements DataFlowClusterManager {
     }
 
     @Override
-    public ClusterMap getMap(String map) {
+    public <K,V> ClusterMap<K,V>  getMap(String map) {
 
         return null;
     }

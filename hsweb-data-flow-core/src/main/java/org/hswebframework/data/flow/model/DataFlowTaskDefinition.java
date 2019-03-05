@@ -69,4 +69,11 @@ public class DataFlowTaskDefinition {
                     return newLink;
                 });
     }
+
+    public ExecutableDefinition getExecutableDefinition() {
+        ExecutableDefinition definition = new ExecutableDefinition();
+        definition.setConfig(config);
+        definition.setType(taskType);
+        return definition;
+    }
 }

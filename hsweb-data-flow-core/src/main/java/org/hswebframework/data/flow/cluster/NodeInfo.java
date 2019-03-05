@@ -1,6 +1,7 @@
 package org.hswebframework.data.flow.cluster;
 
 import lombok.Data;
+import org.hswebframework.data.flow.scheduler.Queues;
 
 import java.util.List;
 
@@ -26,5 +27,13 @@ public class NodeInfo {
 
     public boolean isScheduler() {
         return roles != null && roles.contains(NodeRole.SCHEDULER);
+    }
+
+    public <T> Queue<T> getQueue(String name, DataFlowClusterManager clusterManager) {
+        return clusterManager.getQueue(name + ":" + id);
+    }
+
+    public <T> Queue<T> getQueue(Queues name, DataFlowClusterManager clusterManager) {
+        return clusterManager.getQueue(name.getQueueId() + ":" + id);
     }
 }

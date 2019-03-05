@@ -4,18 +4,16 @@ import java.util.Optional;
 
 public interface DataFlowNodeContext {
 
-    DataFlowContext getFlowContext();
-
     <T> Optional<T> getPreNodeResult(Class<T> type);
-
-    String getPreNodeType();
-
-    String getPreNodeName();
-
-    String getPreNodeId();
 
     Logger logger();
 
     Progress progress();
+
+    boolean isSuccess();
+
+    void success(Object result);
+
+    void error(Throwable msg);
 
 }

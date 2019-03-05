@@ -27,6 +27,14 @@ public class DataFlowLink {
 
     private List<DataFlowTaskDefinition> targetNodes = new ArrayList<>();
 
+    public boolean matchIfSourceSuccess() {
+        return "success".equals(type);
+    }
+
+    public boolean matchIfSourceError() {
+        return "error".equals(type);
+    }
+
     public boolean matchCondition(Map<String, Object> context) {
         return condition == null || condition.match(context);
     }

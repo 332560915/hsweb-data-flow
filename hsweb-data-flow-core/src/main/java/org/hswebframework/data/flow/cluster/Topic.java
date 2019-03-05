@@ -10,4 +10,5 @@ public interface Topic<T> {
 
     void onMessage(Consumer<T> consumer);
 
+    void send(T message);
 }

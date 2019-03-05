@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.hswebframework.data.flow.api.DataFlowNodeTaskRunnable;
 import org.hswebframework.data.flow.api.factory.DataFlowNodeRunnableFactory;
 import org.hswebframework.data.flow.model.DataFlowTaskDefinition;
+import org.hswebframework.data.flow.model.ExecutableDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,10 @@ public class StandardDataFlowNodeRunnableFactory implements DataFlowNodeRunnable
     }
 
     @Override
-    public DataFlowNodeTaskRunnable create(DataFlowTaskDefinition node) {
+    public DataFlowNodeTaskRunnable create(ExecutableDefinition node) {
         return strategies
                 .stream()
-                .filter(strategy -> strategy.support(node.getTaskType()))
+                .filter(strategy -> strategy.support(node.getType()))
                 .findFirst()
                 .map(strategy -> strategy.create(copyConfig(strategy.newConfig(), node.getConfig())))
                 .orElseThrow(() -> new UnsupportedOperationException("[" + node.getName() + "]:不支持的节点类型:" + node.getType()));

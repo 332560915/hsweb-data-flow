@@ -24,7 +24,10 @@ public class LinkCondition {
     private ExpressionEvaluator evaluator;
 
     public boolean match(Map<String, Object> context) {
-        // TODO: 19-1-14
+        if (null != evaluator) {
+            Object result = evaluator.evaluate(type, expression, context);
+            return Boolean.TRUE.equals(result) || "true".equals(result);
+        }
         return true;
     }
 }

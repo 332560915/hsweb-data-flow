@@ -11,6 +11,12 @@ public enum NodeRole {
      * 调度器
      */
     SCHEDULER,
+    
+    /**
+     * 监控
+     */
+    MONITOR,
+
     /**
      * 工作节点
      */

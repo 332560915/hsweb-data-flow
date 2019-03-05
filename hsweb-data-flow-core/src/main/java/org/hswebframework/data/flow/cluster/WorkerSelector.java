@@ -1,5 +1,7 @@
 package org.hswebframework.data.flow.cluster;
 
+import org.hswebframework.data.flow.model.DataFlowTaskDefinition;
+
 import java.util.Optional;
 
 /**
@@ -7,5 +9,5 @@ import java.util.Optional;
  * @since 1.0.0
  */
 public interface WorkerSelector {
-     Optional<NodeInfo> selectWorker();
+     Optional<NodeInfo> selectWorker(DataFlowTaskDefinition task);
 }

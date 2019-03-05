@@ -58,7 +58,7 @@ public class StandardDataFlowProcess implements DataFlowProcess {
     }
 
     protected DataFlowNodeTask createDataFlowNodeTask(DataFlowTaskDefinition node) {
-        DataFlowNodeTaskRunnable runnable = runnableFactory.create(node);
+        DataFlowNodeTaskRunnable runnable = runnableFactory.create(node.getExecutableDefinition());
         StandardDataFlowNodeTask task = new StandardDataFlowNodeTask();
         task.setId(IdUtils.newUUID());
         task.setNodeId(node.getId());
@@ -76,6 +76,14 @@ public class StandardDataFlowProcess implements DataFlowProcess {
                     Map<String, Object> expressionContext = new HashMap<>();
                     expressionContext.put("flow", context);
                     expressionContext.put("node", nodeContext);
+                    //如果是成功才执行的节点
+                    if (dataFlowLink.matchIfSourceSuccess()) {
+                        return nodeContext.isSuccess() && dataFlowLink.matchCondition(expressionContext);
+                    }
+                    //如果是失败才执行的节点
+                    if (dataFlowLink.matchIfSourceError()) {
+                        return !nodeContext.isSuccess() && dataFlowLink.matchCondition(expressionContext);
+                    }
                     return dataFlowLink.matchCondition(expressionContext);
                 })
                 .map(DataFlowLink::getTargetNodes)
@@ -93,12 +101,13 @@ public class StandardDataFlowProcess implements DataFlowProcess {
         DataFlowNodeContext nodeContext = newNodeContext(context, node, preNode, preResult);
         DataFlowNodeTask task = createDataFlowNodeTask(node);
         task.start(nodeContext, future -> {
+            Object result = null;
             if (!future.success()) {
-                context.logger().error("任务失败", future.cause());
-                end(context);
-                return;
+                nodeContext.error(future.cause());
+            } else {
+                result = future.get();
+                nodeContext.success(result);
             }
-            Object result = future.get();
             List<DataFlowTaskDefinition> nextNodes = getNextNode(node, nodeContext, context);
             //没有下一步节点,结束流程
             if (nextNodes == null || nextNodes.isEmpty()) {

@@ -7,6 +7,7 @@ import org.hswebframework.data.flow.api.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -94,8 +95,8 @@ public class JavaMethodInvokeStrategy extends AbstractRunnableFactoryStrategy<Ja
         if (Logger.class.isAssignableFrom(type)) {
             return context.logger();
         }
-        // TODO: 19-1-14 完善参数转换
-        return config.getParameter(index);
+        return Optional.ofNullable(config.getParameter(index))
+                .orElseGet(() -> context.getPreNodeResult(type));
     }
 
     @Override
