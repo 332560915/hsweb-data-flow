@@ -41,7 +41,7 @@ public class StandardDataFlowNodeContext implements DataFlowNodeContext {
 
     @Getter
     @Setter
-    private TypeConvertor typeConvertor;
+    private TypeConverter typeConvertor;
 
     public StandardDataFlowNodeContext(String name) {
         this.logger = new Slf4jLogger("data.flow.task." + name);

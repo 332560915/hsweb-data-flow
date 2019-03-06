@@ -1,5 +1,6 @@
 package org.hswebframework.data.flow.api;
 
+import java.io.Closeable;
 import java.util.function.Consumer;
 
 /**
@@ -10,7 +11,7 @@ public interface DataFlowNodeTaskRunnable {
 
     String getRunnerId();
 
-    void run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception;
+    Closeable run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception;
 
     void stop();
 
@@ -22,8 +23,9 @@ public interface DataFlowNodeTaskRunnable {
             }
 
             @Override
-            public void run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception {
+            public Closeable run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) throws Exception {
                 resultConsumer.accept(TaskFuture.success(null));
+                return ()->{};
             }
 
             @Override

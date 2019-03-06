@@ -12,12 +12,12 @@ import org.hswebframework.data.flow.scheduler.ClusterWorkerJobRequest;
 import org.hswebframework.data.flow.scheduler.InputInfo;
 import org.hswebframework.data.flow.scheduler.Queues;
 import org.hswebframework.data.flow.standard.StandardDataFlowNodeContext;
-import org.slf4j.MDC;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @author zhouhao
@@ -44,39 +44,43 @@ public class DefaultDataFlowWorker implements DataFlowWorker {
 
     private ExpressionEvaluator expressionEvaluator;
 
-    private TypeConvertor typeConvertor;
+    private TypeConverter typeConverter;
 
-    private Map<String, DataFlowNodeTaskRunnable> runnableMap = new ConcurrentHashMap<>();
+    private final Map<String, DataFlowNodeTaskRunnable> runnableMap = new ConcurrentHashMap<>();
 
     public void startJob(ClusterWorkerJobRequest request) {
+        //收到了重复的启动通知
+        synchronized (runnableMap) {
+            DataFlowNodeTaskRunnable old = runnableMap.get(request.getInstanceId());
+            if (null != old) {
+                return;
+            }
+        }
+
         DataFlowNodeTaskRunnable runnable = runnableFactory.create(request.getExecutableDefinition());
+        runnableMap.put(request.getInstanceId(), runnable);
+
         Consumer<Object> inputConsumer = input -> {
             StandardDataFlowNodeContext context = new StandardDataFlowNodeContext(request.getInstanceId());
             context.setPreNodeResult(input);
             context.setSuccess(true);
-            context.setTypeConvertor(typeConvertor);
+            context.setTypeConvertor(typeConverter);
             try {
                 runnable.run(context, future -> {
                     Object result = future.success() ? future.get() : ErrorInfo.of(future.cause());
                     request.getOutputInfoList().stream()
                             .filter(outputInfo -> outputInfo.eval(expressionEvaluator, future.success(), result))
-                            .forEach(outputInfo -> clusterManager
-                                    .getQueue(outputInfo.getQueue())
-                                    .add(result));
+                            .forEach(outputInfo -> clusterManager.getQueue(outputInfo.getQueue()).add(result));
                 });
             } catch (Throwable e) {
-                context.logger().error("执行任务[{}]失败", e);
+                context.logger().error("执行任务[{}]失败", request.getTaskId(), e);
                 request.getOutputInfoList().stream()
                         .filter(outputInfo -> outputInfo.eval(expressionEvaluator, false, ErrorInfo.of(e)))
-                        .forEach(outputInfo -> clusterManager
-                                .getQueue(outputInfo.getQueue())
-                                .add(ErrorInfo.of(e)));
+                        .forEach(outputInfo -> clusterManager.getQueue(outputInfo.getQueue()).add(ErrorInfo.of(e)));
             }
         };
-        runnableMap.put(request.getInstanceId(), runnable);
 
-        clusterManager.getQueue(request.getStopQueue())
-                .accept(stop -> runnable.stop());
+        clusterManager.getQueue(request.getStopQueue()).accept(stop -> runnable.stop());
 
         for (InputInfo inputInfo : request.getInputQueue()) {
             clusterManager.getQueue(inputInfo.getQueue()).accept(inputConsumer);

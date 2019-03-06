@@ -8,6 +8,7 @@ import org.hswebframework.data.flow.api.TaskFuture;
 import org.hswebframework.data.flow.api.TaskRunner;
 import org.hswebframework.data.flow.standard.factory.DataFlowNodeRunnableFactoryStrategy;
 
+import java.io.Closeable;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -35,35 +36,34 @@ public abstract class AbstractRunnableFactoryStrategy<C> implements DataFlowNode
     public DataFlowNodeTaskRunnable create(C config) {
         TaskRunnable runnable = createRunnable(config);
         return new DataFlowNodeTaskRunnable() {
-            AtomicReference<String> runId = new AtomicReference<>();
-
             @Override
             public String getRunnerId() {
                 return runner.getRunnerId();
             }
 
             @Override
-            public void run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) {
+            public Closeable run(DataFlowNodeContext context, Consumer<TaskFuture<Object>> resultConsumer) {
                 try {
-                    runId.set(runner.run(() -> {
+                    String id = runner.run(() -> {
                         try {
                             runnable.run(context, resultConsumer);
                         } catch (Throwable e) {
                             context.logger().error("执行[{}]失败.", getName(), e);
                             resultConsumer.accept(TaskFuture.fail(e));
-                        } finally {
-                            runId.set(null);
                         }
-                    }));
+                    });
+                    return () -> runner.stop(id);
                 } catch (Throwable e) {
                     context.logger().error("提交任务[{}]失败.", getName(), e);
                     resultConsumer.accept(TaskFuture.fail(e));
                 }
+                return () -> {
+                };
             }
 
             @Override
             public void stop() {
-                runner.stop(runId.get());
+
             }
         };
     }

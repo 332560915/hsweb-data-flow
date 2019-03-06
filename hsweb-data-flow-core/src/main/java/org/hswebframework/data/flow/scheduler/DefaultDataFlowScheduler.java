@@ -10,6 +10,7 @@ import org.hswebframework.data.flow.model.DataFlowTaskDefinition;
 import org.hswebframework.data.flow.model.LinkCondition;
 import org.hswebframework.data.flow.utils.IdUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,7 +36,8 @@ public class DefaultDataFlowScheduler implements DataFlowScheduler {
         private DataFlowProcessDefinition definition;
 
         void setUp(DataFlowTaskDefinition task) {
-            NodeInfo workerNode = workerSelector.selectWorker(task).orElseThrow(ErrorCode.WorkerNotAlive::createException);
+            List<NodeInfo> workerNode = workerSelector.selectWorker(task).orElseThrow(ErrorCode.WorkerNotAlive::createException);
+
             ClusterWorkerJobRequest jobRequest = new ClusterWorkerJobRequest();
             jobRequest.setInstanceId(id);
             jobRequest.setTaskId(task.getId());
@@ -65,8 +67,11 @@ public class DefaultDataFlowScheduler implements DataFlowScheduler {
                         return outputInfo;
                     }).collect(Collectors.toList()));
 
-            //向节点发送任务
-            workerNode.getQueue(Queues.workerAcceptJob, dataFlowClusterManager).add(jobRequest);
+            for (NodeInfo nodeInfo : workerNode) {
+                //向节点发送任务
+                nodeInfo.getQueue(Queues.workerAcceptJob, dataFlowClusterManager).add(jobRequest);
+            }
+
         }
 
         void start() {
